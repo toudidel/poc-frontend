@@ -49,14 +49,17 @@ export const useAuthStore = defineStore('auth', {
             const config = useRuntimeConfig()
             try {
                 console.log(`refresh old token ${this.refreshToken}`)
+
                 const response = await axios.post(`${config.public.apiBaseUrl}/public/users/refresh`, {
                     refreshToken: this.refreshToken,
                 })
 
-                console.log(`new refresh token: ${response.data.access_token}`)
-
                 this.accessToken = response.data.access_token
-                this.refreshToken = response.data.refresh_token
+                // this.refreshToken = response.data.refresh_token
+
+                console.log(`NEW accessToken: ${this.accessToken}`)
+                // console.log(`NEW refreshToken: ${this.refreshToken}`)
+
                 this.isLoggedIn = true
                 axios.defaults.headers.common['Authorization'] = `Bearer ${this.accessToken}`
                 this.persistToLocalStorage()

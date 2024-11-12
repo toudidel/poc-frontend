@@ -2,6 +2,9 @@
   <div class="justify-content-center align-items-center vh-100">
     <h1>Secured Page</h1>
     <div>This page is secured and requires authentication.</div>
+    <div>
+      <button @click="reload">Reload</button>
+    </div>
     <div>Data: {{ date }}</div>
     <ul>
       <li v-for="item in uids" :key="item">{{ item }}</li>
@@ -22,6 +25,10 @@ let uids = ref([])
 let events = ref('')
 
 onMounted(async () => {
+  reload()
+})
+
+const reload = async () => {
   try {
     const eventService = new EventService()
     const {data: events} = await eventService.securedOne()
@@ -30,5 +37,5 @@ onMounted(async () => {
   } catch (error) {
     console.error('Read failed', error);
   }
-})
+}
 </script>
